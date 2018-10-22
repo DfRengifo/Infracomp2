@@ -1,55 +1,11 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.security.MessageDigest;
+import java.io.PrintWriter;
 
-public class Servidor 
-{
-	
-    public static final int PUERTO = 8080;
-	private String mensaje;
-	private byte[] llaveSimetrica;
-	private byte[] llavePublica;
-	private String[] algoritmos;
-	
+public class Protocolo {
 
-	public Servidor()
-	{
-		mensaje = null;
-	}
 
-	public void run()
-	{
-		procesarMensaje(mensaje);
-	}
-	
-	private byte[] getDigest(String algorithm, byte[] buffer)
-	{
-		try {
-			MessageDigest digest = MessageDigest.getInstance(algorithm);
-			digest.update(buffer);
-			return digest.digest();
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public boolean verificar (String llaveSimetricaP)
-	{
-		if (algoritmos[0] == null)
-		{
-			return false;
-		}
-		else
-		{
-			getDigest(llaveSimetricaP, algoritmos[]);
-			
-			// escribir el metodo de verificar esta puta mierda.aaaddufbjdsfuhed
-			return true;
-		}		
-	}
-
-	public void procesarMensaje(String mensaje)
-	{
+	public static void procesar(BufferedReader pIn,PrintWriter pOut) throws IOException {
 		String inputLine, outputLine;
 		int estado = 0;
 		while (estado < 6 && (inputLine = pIn.readLine()) != null) {
@@ -121,11 +77,7 @@ public class Servidor
 			}
 			pOut.println(outputLine);
 		}
-		
-		
 	}
-	
-	
-	
-	
 }
+
+
