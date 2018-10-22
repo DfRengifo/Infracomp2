@@ -1,45 +1,36 @@
 
-public class Cliente 
+public class Cliente extends Thread
 {
-    private String mensaje;
-    private static Servidor servidor;
+	private String mensaje;
+	private static Servidor servidor;
+	private String llave
 
 
-    public Cliente( Servidor pServidor, String pMensaje) {
+	public Cliente( Servidor pServidor, String pMensaje) {
 
-        this.mensaje = pMensaje;
-        this.servidor = pServidor;
-    }
+		this.mensaje = pMensaje;
+		this.servidor = pServidor;
+	}
 
-    @Override
-    public void run()
-    {
+	@Override
+	public void run()
+	{
+		String m = mensaje;
+		almacenar(m);
+	}
 
-            Mensaje m = mensajes.get(i);
-       almacenar(m);
-            System.out.println("El cliente almaceno el mensaje " + i);
+	public synchronized void  almacenar(String mensaje)
+	{
+		synchronized(mensaje)
+		{
+			try {
 
-        buff.numClientes= buff.numClientes -1;
-        System.out.println("el numero de clientes es " +buff.numClientes);
-    }
+				mensaje.wait();
 
-    public synchronized void  almacenar(Mensaje mensaje)
-    {
-        while (buff.tamano <= 0)
-        {
-            yield();
-        }
-        buff.almacenar(mensaje);
-        synchronized(mensaje)
-        {
-            try {
-
-                mensaje.wait();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }
